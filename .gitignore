@@ -47,5 +47,14 @@ Temporary Items
 .apdisk
 
 
+# Build directories
+Binaries
+Libraries
+Intermediate
+
+
 # Visual Studio 2013 stuff
 *.suo
+*.sdf
+*.opensdf
+*.user

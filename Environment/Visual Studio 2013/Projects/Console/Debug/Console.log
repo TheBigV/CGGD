@@ -1,0 +1,15 @@
+﻿Build started 07.07.2016 9:47:36.
+     1>Project "F:\CGGD\Environment\Visual Studio 2013\Projects\Console\Console.vcxproj" on node 2 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(357,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\..\..\Source\Console\Source.cpp
+         Source.cpp
+     1>f:\cggd\source\console\source.cpp(24): warning C4101: 'handleWindow' : unreferenced local variable
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\CGGD\Environment\Visual Studio 2013\..\..\Binaries\Visual Studio 2013\Console\Win32\Debug\Console.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:\CGGD\Environment\Visual Studio 2013\..\..\Binaries\Visual Studio 2013\Console\Win32\Debug\Console.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\CGGD\Environment\Visual Studio 2013\..\..\Binaries\Visual Studio 2013\Console\Win32\Debug\Console.lib" /MACHINE:X86 Debug\Source.obj
+         Console.vcxproj -> F:\CGGD\Environment\Visual Studio 2013\..\..\Binaries\Visual Studio 2013\Console\Win32\Debug\Console.exe
+     1>Done Building Project "F:\CGGD\Environment\Visual Studio 2013\Projects\Console\Console.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.03
