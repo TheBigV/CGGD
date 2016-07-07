@@ -3,8 +3,8 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir>$(SolutionDir)..\..\Binaries\Visual Studio 2013\$(ProjectName)\$(PlatformName)\$(Configuration)\</OutDir>
-    <TargetExt>.exe</TargetExt>
+    <OutDir>$(SolutionDir)..\..\Libraries\Visual Studio 2013\$(ProjectName)\$(PlatformName)\$(Configuration)\</OutDir>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemGroup />
