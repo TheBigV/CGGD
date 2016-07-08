@@ -69,9 +69,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Source\WinAPI\ErrorHandling.cpp" />
+    <ClCompile Include="..\..\..\..\Source\WinAPI\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Source\WinAPI\ErrorHandling.hpp" />
+    <ClInclude Include="..\..\..\..\Source\WinAPI\Window.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

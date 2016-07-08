@@ -18,9 +18,15 @@
     <ClCompile Include="..\..\..\..\Source\WinAPI\ErrorHandling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Source\WinAPI\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Source\WinAPI\ErrorHandling.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Source\WinAPI\Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

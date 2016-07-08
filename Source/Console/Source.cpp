@@ -1,69 +1,25 @@
 #include <iostream>
 
 #include <ErrorHandling.hpp>
+#include <Window.hpp>
 
 
 void createWindow()
 {
-	auto handleInstance = GetModuleHandleA(NULL);
-	auto windowClassName = "My Window Class";
-	auto windowTitle = "Window Title";
-
-	WNDCLASSA windowClass;
-	{
-		memset(&windowClass, 0, sizeof(windowClass));
-
-		windowClass.lpszClassName = windowClassName;
-		windowClass.hInstance = handleInstance;
-		windowClass.lpfnWndProc = DefWindowProc;
-
-		if(!RegisterClassA(&windowClass))
-		{
-			WinAPI::ErrorTest();
-		}
-	}
-
-	HWND handleWindow;
-	{
-		handleWindow = CreateWindowA(
-			windowClassName,
-			windowTitle,
-			WS_SYSMENU | WS_VISIBLE,
-			0, 0, 800, 600,
-			NULL,
-			NULL,
-			handleInstance,
-			NULL
-		);
-
-		WinAPI::ErrorTest();
-	}
+	auto instance = WinAPI::Instance::Get();
+	auto windowClass = new WinAPI::WindowClass(instance, "Class");
+	auto window = new WinAPI::Window(windowClass, "Window");
 
 	while(!GetAsyncKeyState(VK_ESCAPE))
 	{
-		MSG msg;
-		{
-			while(PeekMessageA(&msg, handleWindow, 0, 0, PM_REMOVE))
-			{
-				WinAPI::ErrorTest();
-
-				TranslateMessage(&msg);
-				DispatchMessageA(&msg);
-			}
-		}
+		window->Loop();
 
 		Sleep(10);
 	}
 
-	if(!DestroyWindow(handleWindow))
-	{
-		WinAPI::ErrorTest();
-	}
-
-	if(!UnregisterClassA(windowClassName, handleInstance))
-	{
-		WinAPI::ErrorTest();
-	}
+	delete window;
+	delete windowClass;
+	delete instance;
 }
 
 void main()
