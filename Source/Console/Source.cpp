@@ -1,78 +1,92 @@
-#pragma region Include
 #include <iostream>
 using namespace std;
 
-#include <WinAPI/ErrorHandling.hpp>
-#include <WinAPI/Window.hpp>
-using namespace CGGD;
-using namespace WinAPI;
+#include <Windows.h>
 
-#include <OpenGL/ErrorHandling.hpp>
-using namespace CGGD;
-using namespace OpenGL;
-#pragma endregion
+#include <gl/gl.h>
+#include <gl/glext.h>
+#include <gl/wglext.h>
 
 void main()
 {
-	auto instance = Instance::Get();
-	auto windowClass = new WindowClass(instance, "Class");
-	auto window = new Window(windowClass, "Window");
-	auto deviceContext = new DeviceContext(window);
-	//auto renderContext = new 
+	const auto handleInstance	= GetModuleHandleA(NULL);
+	const auto windowClassName	= "My Window Class";
 
-	PIXELFORMATDESCRIPTOR pfd;
+	WNDCLASSA windowClassInfo;
 	{
-		memset(&pfd, 0, sizeof(pfd));
+		memset(&windowClassInfo, 0, sizeof(windowClassInfo));
 
-		pfd.nSize			= sizeof(pfd);
-		pfd.nVersion		= 1;
-		pfd.dwFlags			= PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-		pfd.iPixelType		= PFD_TYPE_RGBA;
-		pfd.cColorBits		= 32;
-		pfd.cRedBits		= 8;
-		pfd.cRedShift		= 0;
-		pfd.cGreenBits		= 8;
-		pfd.cGreenShift		= 8;
-		pfd.cBlueBits		= 8;
-		pfd.cBlueShift		= 16;
-		pfd.cAlphaBits		= 8;
-		pfd.cAlphaShift		= 24;
-		pfd.cAccumBits		= 0;
-		pfd.cAccumRedBits	= 0;
-		pfd.cAccumGreenBits = 0;
-		pfd.cAccumBlueBits	= 0;
-		pfd.cAccumAlphaBits = 0;
-		pfd.cDepthBits		= 32;
-		pfd.cStencilBits	= 32;
-		pfd.cAuxBuffers		= 0;
-		pfd.iLayerType		= 0;
-		pfd.bReserved		= 0;
-		pfd.dwLayerMask		= 0;
-		pfd.dwVisibleMask	= 0;
-		pfd.dwDamageMask	= 0;
+		windowClassInfo.hInstance = handleInstance;
+		windowClassInfo.lpszClassName = windowClassName;
+		windowClassInfo.lpfnWndProc = DefWindowProcA;
 
-		auto pixelFormat = ChoosePixelFormat(deviceContext->GetHandle(), &pfd);
-		if(!pixelFormat)
+		if(!RegisterClassA(&windowClassInfo))
 		{
-			WinAPI::ErrorTest();
-		}
-
-		if(!SetPixelFormat(deviceContext->GetHandle(), pixelFormat, &pfd))
-		{
-			WinAPI::ErrorTest();
+			cout << "shit happen" << endl;
 		}
 	}
 
-	auto rc = wglCreateContext(deviceContext->GetHandle());
+	HWND handleWindow;
 	{
-		if(!rc)
+		handleWindow = CreateWindowA(
+			windowClassName,
+			"Window Title",
+			WS_SYSMENU | WS_VISIBLE,
+			0, 0, 800, 600,
+			NULL,
+			NULL,
+			handleInstance,
+			NULL
+		);
+
+		if(!handleWindow)
 		{
-			OpenGL::ErrorTest();
+			cout << "shit happen" << endl;
+		}
+	}
+
+	HDC handleDeviceContext = GetDC(handleWindow);
+	{
+		if(!handleDeviceContext)
+		{
+			cout << "shit happen" << endl;
+		}
+	}
+
+	PIXELFORMATDESCRIPTOR pixelFormatDescriptorInfo;
+	{
+		memset(&pixelFormatDescriptorInfo, 0, sizeof(pixelFormatDescriptorInfo));
+
+		pixelFormatDescriptorInfo.nSize			= sizeof(pixelFormatDescriptorInfo);
+		pixelFormatDescriptorInfo.nVersion		= 1;
+		pixelFormatDescriptorInfo.dwFlags		= PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+		pixelFormatDescriptorInfo.iPixelType	= PFD_TYPE_RGBA;
+		pixelFormatDescriptorInfo.cColorBits	= 32;
+		pixelFormatDescriptorInfo.cDepthBits	= 32;
+		pixelFormatDescriptorInfo.cStencilBits	= 32;
+
+		auto pixelFormat = ChoosePixelFormat(handleDeviceContext, &pixelFormatDescriptorInfo);
+		if(!pixelFormat)
+		{
+			cout << "shit happen" << endl;
 		}
 
-		if(!wglMakeCurrent(deviceContext->GetHandle(), rc))
+		if(!SetPixelFormat(handleDeviceContext, pixelFormat, &pixelFormatDescriptorInfo))
 		{
-			OpenGL::ErrorTest();
+			cout << "shit happen" << endl;
+		}
+	}
+
+	auto renderContext = wglCreateContext(handleDeviceContext);
+	{
+		if(!renderContext)
+		{
+			cout << "shit happen" << endl;
+		}
+
+		if(!wglMakeCurrent(handleDeviceContext, renderContext))
+		{
+			cout << "shit happen" << endl;
 		}
 	}
 
@@ -81,27 +95,29 @@ void main()
 		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		window->Loop();
+		MSG message;
+		{
+			while(PeekMessageA(&message, handleWindow, 0, 0, PM_REMOVE))
+			{
+				TranslateMessage(&message);
+				DispatchMessageA(&message);
+			}
+		}
 
-		SwapBuffers(deviceContext->GetHandle());
+		SwapBuffers(handleDeviceContext);
 
 		Sleep(10);
 	}
 
-	if(!wglMakeCurrent(NULL, NULL))
+	if(!DestroyWindow(handleWindow))
 	{
-		OpenGL::ErrorTest();
+		cout << "shit happen" << endl;
 	}
 
-	if(!wglDeleteContext(rc))
+	if(!UnregisterClassA(windowClassName, handleInstance))
 	{
-		OpenGL::ErrorTest();
+		cout << "shit happen" << endl;
 	}
-
-	delete deviceContext;
-	delete window;
-	delete windowClass;
-	delete instance;
 
 	system("pause");
 }
