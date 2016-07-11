@@ -39,7 +39,7 @@ CGGD::WinAPI::ErrorText CGGD::WinAPI::GetErrorText(const ErrorCode& errorCode)
 
 	return errorText;
 }
-void CGGD::WinAPI::ErrorTest() throw(...)
+void CGGD::WinAPI::ErrorTest()
 {
 	auto errorCode = GetLastError();
 

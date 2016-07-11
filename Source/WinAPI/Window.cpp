@@ -52,9 +52,8 @@ CGGD::WinAPI::WindowClass::Name CGGD::WinAPI::WindowClass::GetName() const
 
 CGGD::WinAPI::Window::Window(WindowClass* windowClass_, const Name& name_):
 	windowClass(windowClass_),
-	name(name_)
-{
-	handle = CreateWindowA(
+	name(name_),
+	handle(CreateWindowA(
 		windowClass->GetName().c_str(),
 		name.c_str(),
 		WS_SYSMENU | WS_VISIBLE,
@@ -63,8 +62,8 @@ CGGD::WinAPI::Window::Window(WindowClass* windowClass_, const Name& name_):
 		NULL,
 		windowClass->GetInstance()->GetHangle(),
 		NULL
-	);
-
+	))
+{
 	if(!handle)
 	{
 		WinAPI::ErrorTest();
@@ -81,6 +80,10 @@ CGGD::WinAPI::Window::Name CGGD::WinAPI::Window::GetName() const
 {
 	return name;
 }
+CGGD::WinAPI::Window::Handle CGGD::WinAPI::Window::GetHandle() const
+{
+	return handle;
+}
 void CGGD::WinAPI::Window::Loop() const
 {
 	MSG msg;
@@ -96,6 +99,23 @@ void CGGD::WinAPI::Window::Loop() const
 }
 
 
+CGGD::WinAPI::DeviceContext::DeviceContext(Window* window_):
+	window(window_),
+	handle(GetDC(window->GetHandle()))
+{
+	if(!handle)
+	{
+		ErrorTest();
+	}
+}
+CGGD::WinAPI::Window* CGGD::WinAPI::DeviceContext::GetWindow() const
+{
+	return window;
+}
+CGGD::WinAPI::DeviceContext::Handle CGGD::WinAPI::DeviceContext::GetHandle() const
+{
+	return handle;
+}
 
 
 

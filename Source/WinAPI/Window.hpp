@@ -44,17 +44,33 @@ namespace CGGD
 		class Window
 		{
 		public:
+			typedef HWND Handle;
 			typedef std::string Name;
 		protected:
 			WindowClass*const windowClass;
 			const Name name;
-			HWND handle;
+			const Handle handle;
 		public:
 			Window(WindowClass* windowClass_, const Name& name_);
 			~Window();
 		public:
 			Name GetName() const;
+			Handle GetHandle() const;
 			void Loop() const;
+		};
+
+		class DeviceContext
+		{
+		public:
+			typedef HDC Handle;
+		protected:
+			Window*const window;
+			const Handle handle;
+		public:
+			DeviceContext(Window* window_);
+		public:
+			Window* GetWindow() const;
+			Handle GetHandle() const;
 		};
 	}
 }
