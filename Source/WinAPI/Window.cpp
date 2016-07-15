@@ -101,7 +101,7 @@ void CGGD::WinAPI::Window::Loop() const
 
 CGGD::WinAPI::DeviceContext::DeviceContext(Window* window_):
 	window(window_),
-	handle(GetDC(window->GetHandle()))
+	handle(GetDC(window_->GetHandle()))
 {
 	if(!handle)
 	{
@@ -115,6 +115,39 @@ CGGD::WinAPI::Window* CGGD::WinAPI::DeviceContext::GetWindow() const
 CGGD::WinAPI::DeviceContext::Handle CGGD::WinAPI::DeviceContext::GetHandle() const
 {
 	return handle;
+}
+void CGGD::WinAPI::DeviceContext::SetPixelFormat()
+{
+	PIXELFORMATDESCRIPTOR pixelFormatDescriptorInfo;
+	{
+		memset(&pixelFormatDescriptorInfo, 0, sizeof(pixelFormatDescriptorInfo));
+
+		pixelFormatDescriptorInfo.nSize = sizeof(pixelFormatDescriptorInfo);
+		pixelFormatDescriptorInfo.nVersion = 1;
+		pixelFormatDescriptorInfo.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+		pixelFormatDescriptorInfo.iPixelType = PFD_TYPE_RGBA;
+		pixelFormatDescriptorInfo.cColorBits = 32;
+		pixelFormatDescriptorInfo.cDepthBits = 32;
+		pixelFormatDescriptorInfo.cStencilBits = 0;
+	}
+
+	auto pixelFormat = ChoosePixelFormat(handle, &pixelFormatDescriptorInfo);
+	if(!pixelFormat)
+	{
+		ErrorTest();
+	}
+
+	if(!::SetPixelFormat(handle, pixelFormat, &pixelFormatDescriptorInfo))
+	{
+		ErrorTest();
+	}
+}
+void CGGD::WinAPI::DeviceContext::SwapBuffers() const
+{
+	if(!::SwapBuffers(handle))
+	{
+		ErrorTest();
+	}
 }
 
 

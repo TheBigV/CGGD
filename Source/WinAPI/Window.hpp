@@ -71,6 +71,10 @@ namespace CGGD
 		public:
 			Window* GetWindow() const;
 			Handle GetHandle() const;
+		public:
+			void SetPixelFormat();
+		public:
+			void SwapBuffers() const;
 		};
 	}
 }
