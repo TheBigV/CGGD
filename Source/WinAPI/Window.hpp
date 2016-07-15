@@ -5,8 +5,6 @@
 
 #include <Windows.h>
 
-#include "ErrorHandling.hpp"
-
 
 namespace CGGD
 {
@@ -19,61 +17,25 @@ namespace CGGD
 		public:
 			static Instance* Get();
 		protected:
-			const HINSTANCE handle;
+			const Handle handle;
 		protected:
-			Instance(HINSTANCE handle_);
+			Instance(Handle handle_);
 		public:
-			Handle GetHangle() const;
+			inline Handle GetHandle() const
+			{
+				return handle;
+			}
 		};
-
 		class WindowClass
 		{
 		public:
 			typedef std::string Name;
 		protected:
-			Instance*const instance;
 			const Name name;
+			Instance*const instance;
 		public:
 			WindowClass(Instance* instance_, const Name& name_);
 			~WindowClass();
-		public:
-			Instance* GetInstance() const;
-			Name GetName() const;
-		};
-
-		class Window
-		{
-		public:
-			typedef HWND Handle;
-			typedef std::string Name;
-		protected:
-			WindowClass*const windowClass;
-			const Name name;
-			const Handle handle;
-		public:
-			Window(WindowClass* windowClass_, const Name& name_);
-			~Window();
-		public:
-			Name GetName() const;
-			Handle GetHandle() const;
-			void Loop() const;
-		};
-
-		class DeviceContext
-		{
-		public:
-			typedef HDC Handle;
-		protected:
-			Window*const window;
-			const Handle handle;
-		public:
-			DeviceContext(Window* window_);
-		public:
-			Window* GetWindow() const;
-			Handle GetHandle() const;
 		};
 	}
 }
-
-
-

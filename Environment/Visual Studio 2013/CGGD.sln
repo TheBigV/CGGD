@@ -4,18 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Console", "Projects\Console\Console.vcxproj", "{40DCE7AE-B0B2-4A91-9CAD-B946DBEDCF71}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26} = {D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26}
-		{722CF56A-8434-4918-B951-A4497441930E} = {722CF56A-8434-4918-B951-A4497441930E}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI", "Projects\WinAPI\WinAPI.vcxproj", "{D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGL", "Projects\OpenGL\OpenGL.vcxproj", "{722CF56A-8434-4918-B951-A4497441930E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIs", "APIs", "{DB4D0993-7E47-4972-AF20-C1B45BAC04CC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Console", "Console", "{438B6919-E300-4F6D-9405-778FEA6AC27F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinAPI", "Projects\WinAPI\WinAPI.vcxproj", "{816176A8-0C7A-4B4A-9F3E-49BA45882EE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,33 +29,21 @@ Global
 		{40DCE7AE-B0B2-4A91-9CAD-B946DBEDCF71}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{40DCE7AE-B0B2-4A91-9CAD-B946DBEDCF71}.Release|Win32.ActiveCfg = Release|Win32
 		{40DCE7AE-B0B2-4A91-9CAD-B946DBEDCF71}.Release|Win32.Build.0 = Release|Win32
-		{D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26}.Debug|Win32.Build.0 = Debug|Win32
-		{D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26}.Release|Any CPU.ActiveCfg = Release|Win32
-		{D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26}.Release|Win32.ActiveCfg = Release|Win32
-		{D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26}.Release|Win32.Build.0 = Release|Win32
-		{722CF56A-8434-4918-B951-A4497441930E}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{722CF56A-8434-4918-B951-A4497441930E}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{722CF56A-8434-4918-B951-A4497441930E}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{722CF56A-8434-4918-B951-A4497441930E}.Debug|Win32.ActiveCfg = Debug|Win32
-		{722CF56A-8434-4918-B951-A4497441930E}.Debug|Win32.Build.0 = Debug|Win32
-		{722CF56A-8434-4918-B951-A4497441930E}.Release|Any CPU.ActiveCfg = Release|Win32
-		{722CF56A-8434-4918-B951-A4497441930E}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{722CF56A-8434-4918-B951-A4497441930E}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{722CF56A-8434-4918-B951-A4497441930E}.Release|Win32.ActiveCfg = Release|Win32
-		{722CF56A-8434-4918-B951-A4497441930E}.Release|Win32.Build.0 = Release|Win32
+		{816176A8-0C7A-4B4A-9F3E-49BA45882EE7}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{816176A8-0C7A-4B4A-9F3E-49BA45882EE7}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{816176A8-0C7A-4B4A-9F3E-49BA45882EE7}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{816176A8-0C7A-4B4A-9F3E-49BA45882EE7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{816176A8-0C7A-4B4A-9F3E-49BA45882EE7}.Debug|Win32.Build.0 = Debug|Win32
+		{816176A8-0C7A-4B4A-9F3E-49BA45882EE7}.Release|Any CPU.ActiveCfg = Release|Win32
+		{816176A8-0C7A-4B4A-9F3E-49BA45882EE7}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{816176A8-0C7A-4B4A-9F3E-49BA45882EE7}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{816176A8-0C7A-4B4A-9F3E-49BA45882EE7}.Release|Win32.ActiveCfg = Release|Win32
+		{816176A8-0C7A-4B4A-9F3E-49BA45882EE7}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{722CF56A-8434-4918-B951-A4497441930E} = {DB4D0993-7E47-4972-AF20-C1B45BAC04CC}
-		{D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26} = {DB4D0993-7E47-4972-AF20-C1B45BAC04CC}
 		{40DCE7AE-B0B2-4A91-9CAD-B946DBEDCF71} = {438B6919-E300-4F6D-9405-778FEA6AC27F}
 	EndGlobalSection
 EndGlobal

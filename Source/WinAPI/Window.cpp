@@ -9,113 +9,30 @@ CGGD::WinAPI::Instance::Instance(HINSTANCE handle_):
 	handle(handle_)
 {
 }
-CGGD::WinAPI::Instance::Handle CGGD::WinAPI::Instance::GetHangle() const
-{
-	return handle;
-}
 
 
 CGGD::WinAPI::WindowClass::WindowClass(Instance* instance_, const Name& name_):
 	instance(instance_),
 	name(name_)
 {
-	WNDCLASSA windowClass;
+	WNDCLASSA windowClassInfo;
 	{
-		memset(&windowClass, 0, sizeof(windowClass));
+		memset(&windowClassInfo, 0, sizeof(windowClassInfo));
 
-		windowClass.lpszClassName = name.c_str();
-		windowClass.hInstance = instance->GetHangle();
-		windowClass.lpfnWndProc = DefWindowProc;
+		windowClassInfo.hInstance		= instance->GetHandle();
+		windowClassInfo.lpszClassName	= name.c_str();
+		windowClassInfo.lpfnWndProc = DefWindowProcA;
 
-		if(!RegisterClassA(&windowClass))
+		if(!RegisterClassA(&windowClassInfo))
 		{
-			ErrorTest();
+			// TODO error handling
 		}
 	}
 }
 CGGD::WinAPI::WindowClass::~WindowClass()
 {
-	if(!UnregisterClassA(name.c_str(), instance->GetHangle()))
+	if(!UnregisterClassA(name.c_str(), instance->GetHandle()))
 	{
-		ErrorTest();
+		// TODO
 	}
 }
-CGGD::WinAPI::Instance* CGGD::WinAPI::WindowClass::GetInstance() const
-{
-	return instance;
-}
-CGGD::WinAPI::WindowClass::Name CGGD::WinAPI::WindowClass::GetName() const
-{
-	return name;
-}
-
-
-CGGD::WinAPI::Window::Window(WindowClass* windowClass_, const Name& name_):
-	windowClass(windowClass_),
-	name(name_),
-	handle(CreateWindowA(
-		windowClass->GetName().c_str(),
-		name.c_str(),
-		WS_SYSMENU | WS_VISIBLE,
-		0, 0, 800, 600,
-		NULL,
-		NULL,
-		windowClass->GetInstance()->GetHangle(),
-		NULL
-	))
-{
-	if(!handle)
-	{
-		WinAPI::ErrorTest();
-	}
-}
-CGGD::WinAPI::Window::~Window()
-{
-	if(!DestroyWindow(handle))
-	{
-		ErrorTest();
-	}
-}
-CGGD::WinAPI::Window::Name CGGD::WinAPI::Window::GetName() const
-{
-	return name;
-}
-CGGD::WinAPI::Window::Handle CGGD::WinAPI::Window::GetHandle() const
-{
-	return handle;
-}
-void CGGD::WinAPI::Window::Loop() const
-{
-	MSG msg;
-	{
-		while(PeekMessageA(&msg, handle, 0, 0, PM_REMOVE))
-		{
-			WinAPI::ErrorTest();
-
-			TranslateMessage(&msg);
-			DispatchMessageA(&msg);
-		}
-	}
-}
-
-
-CGGD::WinAPI::DeviceContext::DeviceContext(Window* window_):
-	window(window_),
-	handle(GetDC(window->GetHandle()))
-{
-	if(!handle)
-	{
-		ErrorTest();
-	}
-}
-CGGD::WinAPI::Window* CGGD::WinAPI::DeviceContext::GetWindow() const
-{
-	return window;
-}
-CGGD::WinAPI::DeviceContext::Handle CGGD::WinAPI::DeviceContext::GetHandle() const
-{
-	return handle;
-}
-
-
-

@@ -1,14 +1,31 @@
 #include <iostream>
 using namespace std;
 
+#include <WinAPI/Window.hpp>
+
+
 #include <Windows.h>
 
 #include <gl/gl.h>
 #include <gl/glext.h>
 #include <gl/wglext.h>
 
+
 void main()
 {
+	auto instance = CGGD::WinAPI::Instance::Get();
+	auto windowClass = new CGGD::WinAPI::WindowClass(instance, "name");
+	delete windowClass;
+	delete instance;
+
+	/*
+	auto instance = new Instance;
+	auto windowClass = new WindowClass(instance);
+	auto window = new Window(windowClass);
+	auto deviceContext = window->GetDeviceContext();
+	auto renderContext = new RenderContext(deviceContext);
+	*/
+
 	const auto handleInstance	= GetModuleHandleA(NULL);
 	const auto windowClassName	= "My Window Class";
 
