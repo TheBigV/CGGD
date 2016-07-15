@@ -35,12 +35,14 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\Properties\Default Project.props" />
+    <Import Project="..\..\Properties\Default Static Library User.props" />
     <Import Project="..\..\Properties\Default Application.props" />
     <Import Project="..\..\Properties\Default External User.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\Properties\Default Project.props" />
+    <Import Project="..\..\Properties\Default Static Library User.props" />
     <Import Project="..\..\Properties\Default Application.props" />
     <Import Project="..\..\Properties\Default External User.props" />
   </ImportGroup>
@@ -84,6 +86,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Source\Console\Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenGL\OpenGL.vcxproj">
+      <Project>{722cf56a-8434-4918-b951-a4497441930e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\WinAPI\WinAPI.vcxproj">
+      <Project>{d90e0e5a-f1c5-4996-b7ce-1c0bd5c87c26}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
