@@ -25,7 +25,8 @@ CGGD::WinAPI::WindowClass::WindowClass(Instance* instance_, const Name& name_):
 
 		windowClass.lpszClassName = name.c_str();
 		windowClass.hInstance = instance->GetHangle();
-		windowClass.lpfnWndProc = DefWindowProc;
+		windowClass.lpfnWndProc = DefWindowProcA;
+		windowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 
 		if(!RegisterClassA(&windowClass))
 		{
