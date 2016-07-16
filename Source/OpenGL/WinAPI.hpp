@@ -8,6 +8,7 @@
 #include <WinAPI/Window.hpp>
 
 #include "ErrorHandling.hpp"
+#include "Functions.hpp"
 #pragma endregion
 
 
@@ -20,8 +21,10 @@ namespace CGGD
 			class RenderContext
 			{
 			public:
-				typedef CGGD::WinAPI::DeviceContext DeviceContext;
-				typedef HGLRC Handle;
+				using DeviceContext = CGGD::WinAPI::DeviceContext;
+				using Handle = HGLRC;
+			public:
+				static void Reset();
 			protected:
 				DeviceContext*const deviceContext;
 				const Handle handle;
@@ -34,14 +37,33 @@ namespace CGGD
 					return handle;
 				}
 			public:
-				inline void Set()
+				void Set();
+			};
+			class RenderContextExtended
+			{
+			public:
+				using DeviceContext = CGGD::WinAPI::DeviceContext;
+			private:
+				class Initer
 				{
-					if(!wglMakeCurrent(deviceContext->GetHandle(), handle))
-					{
-						ErrorTest();
-						CGGD::WinAPI::ErrorTest();
-					}
-				}
+				public:
+					Initer();
+				};
+			private:
+				static const Initer initer;
+				static const GLint attribs[];
+			public:
+				static void Reset();
+			public:
+				using Handle = HGLRC;
+			protected:
+				const DeviceContext* deviceContext;
+				const Handle handle;
+			public:
+				RenderContextExtended(DeviceContext* deviceContext_);
+				~RenderContextExtended();
+			public:
+				void Set();
 			};
 		}
 	}

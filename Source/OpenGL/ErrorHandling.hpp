@@ -4,11 +4,7 @@
 
 #include <string>
 
-#include <Windows.h> // TODO: add #ifdef WIN/LIN/MAC
-
-#include <gl/GL.h>
-#include <gl/glext.h>
-#include <gl/wglext.h>
+#include "Header.hpp"
 #pragma endregion
 
 

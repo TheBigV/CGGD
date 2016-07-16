@@ -73,10 +73,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Source\OpenGL\ErrorHandling.hpp" />
+    <ClInclude Include="..\..\..\..\Source\OpenGL\Functions.hpp" />
+    <ClInclude Include="..\..\..\..\Source\OpenGL\Header.hpp" />
     <ClInclude Include="..\..\..\..\Source\OpenGL\WinAPI.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Source\OpenGL\ErrorHandling.cpp" />
+    <ClCompile Include="..\..\..\..\Source\OpenGL\Functions.cpp" />
     <ClCompile Include="..\..\..\..\Source\OpenGL\WinAPI.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
