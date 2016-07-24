@@ -40,6 +40,9 @@ namespace CGGD
 		extern PFNGLGETSHADERIVPROC							glGetShaderiv;
 		extern PFNGLGETSHADERINFOLOGPROC					glGetShaderInfoLog;
 
+		extern PFNGLGETUNIFORMLOCATIONPROC					glGetUniformLocation;
+		extern PFNGLUNIFORM1FPROC							glUniform1f;
+
 		extern PFNGLGETATTRIBLOCATIONPROC					glGetAttribLocation;
 		extern PFNGLVERTEXATTRIBPOINTERPROC					glVertexAttribPointer;
 		extern PFNGLENABLEVERTEXATTRIBARRAYPROC				glEnableVertexAttribArray;

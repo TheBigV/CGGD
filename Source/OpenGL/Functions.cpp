@@ -29,6 +29,9 @@ PFNGLDETACHSHADERPROC						CGGD::OpenGL::glDetachShader								= nullptr;
 PFNGLGETSHADERIVPROC						CGGD::OpenGL::glGetShaderiv									= nullptr;
 PFNGLGETSHADERINFOLOGPROC					CGGD::OpenGL::glGetShaderInfoLog							= nullptr;
 
+PFNGLGETUNIFORMLOCATIONPROC					CGGD::OpenGL::glGetUniformLocation							= nullptr;
+PFNGLUNIFORM1FPROC							CGGD::OpenGL::glUniform1f									= nullptr;
+
 PFNGLGETATTRIBLOCATIONPROC					CGGD::OpenGL::glGetAttribLocation							= nullptr;
 PFNGLVERTEXATTRIBPOINTERPROC				CGGD::OpenGL::glVertexAttribPointer							= nullptr;
 PFNGLENABLEVERTEXATTRIBARRAYPROC			CGGD::OpenGL::glEnableVertexAttribArray						= nullptr;

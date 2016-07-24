@@ -2,12 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup>
-    <OutDir>$(SolutionDir)..\..\Static Libraries\$(VisualStudioEdition)\$(ProjectName)\$(PlatformName)\$(Configuration)\</OutDir>
-    <TargetExt>.lib</TargetExt>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup>
-    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>xcopy /R /Y "$(SolutionDir)..\..\External\OpenIL\dll\DevIL.dll" "$(SolutionDir)..\..\Binaries\$(VisualStudioEdition)\$(ProjectName)\$(PlatformName)\$(Configuration)\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

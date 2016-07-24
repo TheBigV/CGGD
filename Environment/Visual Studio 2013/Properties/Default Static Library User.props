@@ -8,9 +8,13 @@
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\Source\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\Static Libraries\$(VisualStudioEdition)\WinAPI\$(PlatformName)\$(Configuration)\;$(SolutionDir)..\..\Static Libraries\$(VisualStudioEdition)\OpenGL\$(PlatformName)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>WinAPI.lib;OpenGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\Static Libraries\$(VisualStudioEdition)\WinAPI\$(PlatformName)\$(Configuration)\;$(SolutionDir)..\..\Static Libraries\$(VisualStudioEdition)\OpenGL\$(PlatformName)\$(Configuration)\;$(SolutionDir)..\..\Static Libraries\$(VisualStudioEdition)\OpenIL\$(PlatformName)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>WinAPI.lib;OpenGL.lib;OpenIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>
