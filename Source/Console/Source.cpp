@@ -15,6 +15,9 @@ using namespace CGGD::WinAPI;
 #include <OpenGL/Functions.hpp>
 using namespace CGGD::OpenGL;
 using namespace CGGD::OpenGL::WinAPI;
+
+#include <OpenIL/Functions.hpp>
+using namespace CGGD::OpenIL;
 #pragma endregion
 
 
@@ -114,53 +117,33 @@ void func()
 
 	GLuint texture;
 	{
-		size_t sizeX = 512;
-		size_t sizeY = 512;
-		std::vector<std::uint8_t> data(sizeX*sizeY*3);
-		{
-			for(size_t x = 0; x < sizeX; ++x)
-			for(size_t y = 0; y < sizeY; ++y)
-			{
-				auto &red	= data[(x + y*sizeX) * 3 + 0];
-				auto &green	= data[(x + y*sizeX) * 3 + 1];
-				auto &blue	= data[(x + y*sizeX) * 3 + 2];
+		auto image = Image::Load2D(path("Media/Images/image.png"));
 
-				if(rand() % 2 == 0)
-				{
-					red = 0xFF;
-					green = 0xFF;
-					blue = 0xFF;
-				}
-				else
-				{
-					red = 0x00;
-					green = 0x00;
-					blue = 0x00;
-				}
-			}
-		}
+		glGenTextures(1, &texture); OpenGL::ErrorTest(); OpenGL::ErrorTest();
+		glActiveTexture(GL_TEXTURE0 + 0);
+		glBindTexture(GL_TEXTURE_2D, texture); OpenGL::ErrorTest(); OpenGL::ErrorTest();
 
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); OpenGL::ErrorTest();
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); OpenGL::ErrorTest();
 		
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); OpenGL::ErrorTest(); OpenGL::ErrorTest();
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); OpenGL::ErrorTest(); OpenGL::ErrorTest();
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT); OpenGL::ErrorTest(); OpenGL::ErrorTest();
 
 		glTexImage2D(
-			GL_TEXTURE_2D,
-			0,
-			GL_RGB8,
-			sizeX,
-			sizeY,
-			0,
-			GL_RGB,
-			GL_UNSIGNED_BYTE,
-			data.data()
+			GL_TEXTURE_2D, 
+			0, // mip level = 0
+			GL_RGBA8, // internal format
+			image->GetWidth(), // width
+			image->GetHeight(), // height
+			0, // border = 0
+			(GLenum)image->GetFormat(), // format
+			(GLenum)image->GetComponentType(), //GL_UNSIGNED_BYTE,
+			image->GetData()
 		);
+		OpenGL::ErrorTest();
+
+		delete image;
 	}
 
 	GLuint program = glCreateProgram();
@@ -263,39 +246,46 @@ void func()
 		glUseProgram(program);
 		OpenGL::ErrorTest();
 
-		auto attribute_vPos = glGetAttribLocation(program, "vPos");
+		auto attribute_vPos = glGetAttribLocation(program, "vPos"); OpenGL::ErrorTest();
 		if(attribute_vPos != -1)
 		{
-			OpenGL::ErrorTest();
 			glEnableVertexAttribArray(attribute_vPos);
 			OpenGL::ErrorTest();
 			glVertexAttribPointer(attribute_vPos, 2, GL_FLOAT, GL_FALSE, sizeof(decltype(source)::value_type), 0);
 			OpenGL::ErrorTest();
 		}
 		
-		auto attribute_vColor = glGetAttribLocation(program, "vColor");
+		auto attribute_vColor = glGetAttribLocation(program, "vColor"); OpenGL::ErrorTest();
 		if(attribute_vColor != -1)
 		{
-			OpenGL::ErrorTest();
 			glVertexAttribPointer(attribute_vColor, 3, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(decltype(source)::value_type), (void*)8);
 			OpenGL::ErrorTest();
 			glEnableVertexAttribArray(attribute_vColor);
 			OpenGL::ErrorTest();
 		}
 
-		auto attribute_vTex = glGetAttribLocation(program, "vTex");
+		auto attribute_vTex = glGetAttribLocation(program, "vTex"); OpenGL::ErrorTest();
 		if(attribute_vTex != -1)
 		{
-			OpenGL::ErrorTest();
 			glVertexAttribPointer(attribute_vTex, 2, GL_FLOAT, GL_FALSE, sizeof(decltype(source)::value_type), (void*)12);
 			OpenGL::ErrorTest();
 			glEnableVertexAttribArray(attribute_vTex);
+			OpenGL::ErrorTest();
+		}
+		
+		auto uniform_textureColor = glGetUniformLocation(program, "textureColor"); OpenGL::ErrorTest();
+		if(uniform_textureColor != -1)
+		{
+			glUniform1i(uniform_textureColor, 0);
 			OpenGL::ErrorTest();
 		}
 	}
 
 	auto uniform_offsetX = glGetUniformLocation(program, "offsetX");
 	float t = 0.0f;
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	while(!GetAsyncKeyState(VK_ESCAPE))
 	{
@@ -340,6 +330,10 @@ void main()
 	catch(CGGD::OpenGL::Exception exception)
 	{
 		cout << "OpenGL exception:\n" << exception.GetText() << endl;
+	}
+	catch(CGGD::OpenIL::Exception exception)
+	{
+		cout << "OpenIL exception:\n" << exception.GetText() << endl;
 	}
 
 	system("pause");

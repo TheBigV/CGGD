@@ -42,11 +42,14 @@ namespace CGGD
 
 		extern PFNGLGETUNIFORMLOCATIONPROC					glGetUniformLocation;
 		extern PFNGLUNIFORM1FPROC							glUniform1f;
+		extern PFNGLUNIFORM1IPROC							glUniform1i;
 
 		extern PFNGLGETATTRIBLOCATIONPROC					glGetAttribLocation;
 		extern PFNGLVERTEXATTRIBPOINTERPROC					glVertexAttribPointer;
 		extern PFNGLENABLEVERTEXATTRIBARRAYPROC				glEnableVertexAttribArray;
 		extern PFNGLDISABLEVERTEXATTRIBARRAYPROC			glDisableVertexAttribArray;
+
+		extern PFNGLACTIVETEXTUREPROC						glActiveTexture;
 	}
 }
 

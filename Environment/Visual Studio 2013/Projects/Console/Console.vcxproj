@@ -97,6 +97,13 @@
       <Project>{d90e0e5a-f1c5-4996-b7ce-1c0bd5c87c26}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Media\Shaders\1.fs" />
+    <None Include="..\..\..\..\Media\Shaders\1.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Media\Images\image.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

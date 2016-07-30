@@ -76,11 +76,15 @@ CGGD::OpenGL::WinAPI::RenderContextExtended::Initer::Initer()
 
 	__CGGD__OPENGL_GET_PROC(glGetUniformLocation);
 	__CGGD__OPENGL_GET_PROC(glUniform1f);
+	__CGGD__OPENGL_GET_PROC(glUniform1i);
 
 	__CGGD__OPENGL_GET_PROC(glGetAttribLocation);
 	__CGGD__OPENGL_GET_PROC(glVertexAttribPointer);
 	__CGGD__OPENGL_GET_PROC(glEnableVertexAttribArray);
 	__CGGD__OPENGL_GET_PROC(glDisableVertexAttribArray);
+
+	__CGGD__OPENGL_GET_PROC(glActiveTexture);
+
 
 	RenderContext::Reset();
 

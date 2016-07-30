@@ -19,4 +19,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Media\Shaders\1.fs" />
+    <None Include="..\..\..\..\Media\Shaders\1.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Media\Images\image.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
