@@ -5,7 +5,9 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <PostBuildEvent>
-      <Command>xcopy /R /Y "$(SolutionDir)..\..\External\OpenIL\dll\DevIL.dll" "$(SolutionDir)..\..\Binaries\$(VisualStudioEdition)\$(ProjectName)\$(PlatformName)\$(Configuration)\"</Command>
+      <Command>xcopy /R /Y "$(SolutionDir)..\..\External\OpenIL\dll\DevIL.dll" "$(SolutionDir)..\..\Binaries\$(VisualStudioEdition)\$(ProjectName)\$(PlatformName)\$(Configuration)\"
+xcopy /R /Y "$(SolutionDir)..\..\External\OpenIL\dll\ILU.dll" "$(SolutionDir)..\..\Binaries\$(VisualStudioEdition)\$(ProjectName)\$(PlatformName)\$(Configuration)\"
+xcopy /R /Y "$(SolutionDir)..\..\External\OpenIL\dll\ILUT.dll" "$(SolutionDir)..\..\Binaries\$(VisualStudioEdition)\$(ProjectName)\$(PlatformName)\$(Configuration)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup />
