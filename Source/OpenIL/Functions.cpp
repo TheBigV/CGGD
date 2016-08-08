@@ -13,16 +13,17 @@ CGGD::OpenIL::Image* CGGD::OpenIL::Image::Load2D(const Filename& filename)
 	{
 		ErrorTest();
 
-		auto ilWidth = ilGetInteger(IL_IMAGE_WIDTH);
-		auto ilHeight = ilGetInteger(IL_IMAGE_HEIGHT);
-		auto ilDepth = ilGetInteger(IL_IMAGE_DEPTH);
-		auto ilFormat = ilGetInteger(IL_IMAGE_FORMAT); // GL_RGBA
-		auto ilType = ilGetInteger(IL_IMAGE_TYPE);
-		auto ilBytes = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
-		auto ilBits = ilGetInteger(IL_IMAGE_BITS_PER_PIXEL);
-		auto ilMipmap = ilGetInteger(IL_NUM_MIPMAPS);
-		auto ilOriginMode = ilGetInteger(IL_IMAGE_ORIGIN);	// IL_ORIGIN_LOWER_LEFT, IL_ORIGIN_UPPER_LEFT
-		auto ilData = ilGetData();
+		auto ilWidth = ilGetInteger(IL_IMAGE_WIDTH); ErrorTest();
+		auto ilHeight = ilGetInteger(IL_IMAGE_HEIGHT); ErrorTest();
+		auto ilDepth = ilGetInteger(IL_IMAGE_DEPTH); ErrorTest();
+		auto ilFormat = ilGetInteger(IL_IMAGE_FORMAT); ErrorTest(); // GL_RGBA
+		auto ilType = ilGetInteger(IL_IMAGE_TYPE); ErrorTest();
+		auto ilBytes = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL); ErrorTest();
+		auto ilBits = ilGetInteger(IL_IMAGE_BITS_PER_PIXEL); ErrorTest();
+		auto ilMipmap = ilGetInteger(IL_NUM_MIPMAPS); ErrorTest();
+		auto ilOriginMode = ilGetInteger(IL_IMAGE_ORIGIN); ErrorTest();	// IL_ORIGIN_LOWER_LEFT, IL_ORIGIN_UPPER_LEFT
+		auto ilDataSize = ilGetInteger(IL_IMAGE_SIZE_OF_DATA); ErrorTest();
+		auto ilData = ilGetData(); ErrorTest();
 
 		Size width = ilWidth > 0 ? ilWidth :
 			throw Exception("Invalid width: " + std::to_string(ilWidth));
@@ -37,6 +38,7 @@ CGGD::OpenIL::Image* CGGD::OpenIL::Image::Load2D(const Filename& filename)
 		{
 			switch(format)
 			{
+				case CGGD::OpenIL::Image::Format::RGB:
 				case CGGD::OpenIL::Image::Format::RGBA:
 					break;
 				default:
@@ -96,8 +98,7 @@ CGGD::OpenIL::Image* CGGD::OpenIL::Image::Load2D(const Filename& filename)
 
 		try
 		{
-			ilDeleteImage(handle);
-			ErrorTest();
+			ilDeleteImage(handle); ErrorTest();
 		}
 		catch(...)
 		{
@@ -113,8 +114,7 @@ CGGD::OpenIL::Image* CGGD::OpenIL::Image::Load2D(const Filename& filename)
 		ErrorTest();
 	}
 
-	ilDeleteImage(handle);
-	ErrorTest();
+	ilDeleteImage(handle); ErrorTest();
 
 	return nullptr;
 }

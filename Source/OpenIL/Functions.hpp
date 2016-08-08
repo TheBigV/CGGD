@@ -2,6 +2,9 @@
 #pragma once
 
 
+#include <cstdint>
+
+
 #include "Header.hpp"
 #include "ErrorHandling.hpp"
 #pragma endregion
@@ -76,7 +79,8 @@ namespace CGGD
 			};
 			enum class Format: GLenum
 			{
-				RGBA				= GL_RGBA,
+				RGB				= GL_RGB,
+				RGBA			= GL_RGBA,
 			};
 			enum class Origin
 			{
@@ -112,6 +116,26 @@ namespace CGGD
 		public:
 			~Image();
 		public:
+			inline void Flip()
+			{
+				auto d = bytesPerPixel * width;
+				auto t = malloc(d);
+
+				for(Size z = 0; z < depth; ++z)
+				{
+					for(Size y = 0; y < height / 2; ++y)
+					{
+						auto m1 = (std::uint8_t*)data + ((y + z*height)*width) * bytesPerPixel;
+						auto m2 = (std::uint8_t*)data + (((height - 1 - y) + z*height)*width) * bytesPerPixel;
+						memcpy(t, m1, d);
+						memcpy(m1, m2, d);
+						memcpy(m2, t, d);
+					}
+				}
+
+				free(t);
+			}
+		public:
 			inline Size GetWidth() const
 			{
 				return width;
@@ -120,7 +144,7 @@ namespace CGGD
 			{
 				return height;
 			}
-			inline Size GetHepth() const
+			inline Size GetDepth() const
 			{
 				return depth;
 			}
@@ -136,7 +160,7 @@ namespace CGGD
 			{
 				return bytesPerPixel;
 			}
-			inline Size GetPitsPerPixel() const
+			inline Size GetBitsPerPixel() const
 			{
 				return bitsPerPixel;
 			}
