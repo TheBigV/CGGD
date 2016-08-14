@@ -5,7 +5,7 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\External\OpenGL\include\;$(SolutionDir)..\..\External\OpenIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\External\OpenGL\include\;$(SolutionDir)..\..\External\OpenIL\include\;$(SolutionDir)..\..\External\GLM\glm\;$(SolutionDir)..\..\External\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\External\OpenGL\lib\;$(SolutionDir)..\..\External\OpenIL\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

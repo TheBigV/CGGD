@@ -24,24 +24,6 @@ using namespace CGGD::OpenIL;
 #define PATH(x) "../../../../" + (std::string)x
 
 
-std::string path(const std::string& x)
-{
-	return "../../../../" + x;
-}
-std::string loadFile(const std::string& filename)
-{
-	std::ifstream file(filename);
-
-	std::string source;
-
-	std::getline(file, source, '\0');
-
-	file.close();
-
-	return source;
-}
-
-
 void func()
 {
 	auto instance = Instance::Get();
@@ -117,7 +99,11 @@ void func()
 
 	GLuint texture;
 	{
-		auto image = Image::Load2D(path("Media/Images/image.png"));
+		auto image = Image::Load2D(PATH("Media/Images/bug.png"));
+		if(image->GetOriginMode() != Image::Origin::LowerLeft)
+		{
+			image->Flip();
+		}
 
 		glGenTextures(1, &texture); OpenGL::ErrorTest(); OpenGL::ErrorTest();
 		glActiveTexture(GL_TEXTURE0 + 0);
@@ -130,10 +116,13 @@ void func()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); OpenGL::ErrorTest(); OpenGL::ErrorTest();
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT); OpenGL::ErrorTest(); OpenGL::ErrorTest();
 
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1); OpenGL::ErrorTest();
+
 		glTexImage2D(
 			GL_TEXTURE_2D, 
 			0, // mip level = 0
-			GL_RGBA8, // internal format
+			image->GetFormat() == Image::Format::RGBA ? GL_RGBA8
+				: GL_RGB, // internal format
 			image->GetWidth(), // width
 			image->GetHeight(), // height
 			0, // border = 0
@@ -148,7 +137,19 @@ void func()
 
 	GLuint program = glCreateProgram();
 	{
-		auto CompileShader = [](GLuint shader)
+		auto loadFile = [](const std::string& filename) -> std::string
+		{
+			std::ifstream file(filename);
+
+			std::string source;
+
+			std::getline(file, source, '\0');
+
+			file.close();
+
+			return source;
+		};
+		auto compileShader = [](GLuint shader)
 		{
 			glCompileShader(shader);
 
@@ -173,7 +174,7 @@ void func()
 				throw OpenGL::Exception(errorText);
 			}
 		};
-		auto LinkProgram = [](GLuint program)
+		auto linkProgram = [](GLuint program)
 		{
 			glLinkProgram(program);
 
@@ -206,28 +207,28 @@ void func()
 		{
 			OpenGL::ErrorTest();
 
-			std::string source = loadFile(path("Media/Shaders/1.vs")); // "#version 330 core\nin vec2 vPos; void main(){gl_Position = vec4(vPos,0,1);}";
+			std::string source = loadFile(PATH("Media/Shaders/1.vs")); // "#version 330 core\nin vec2 vPos; void main(){gl_Position = vec4(vPos,0,1);}";
 			auto data = source.data();
 			GLint length = source.size();
 
 			glShaderSource(shaderVertex, 1, &data, &length);
 			OpenGL::ErrorTest();
 
-			CompileShader(shaderVertex);
+			compileShader(shaderVertex);
 			OpenGL::ErrorTest();
 		}
 		GLuint shaderFragment = glCreateShader(GL_FRAGMENT_SHADER);
 		{
 			OpenGL::ErrorTest();
 
-			std::string source = loadFile(path("Media/Shaders/1.fs")); // "#version 330 core\nout vec4 outColor; void main(){outColor = vec4(0,1,0,1);}";
+			std::string source = loadFile(PATH("Media/Shaders/1.fs")); // "#version 330 core\nout vec4 outColor; void main(){outColor = vec4(0,1,0,1);}";
 			auto data = source.data();
 			GLint length = source.size();
 
 			glShaderSource(shaderFragment, 1, &data, &length);
 			OpenGL::ErrorTest();
 
-			CompileShader(shaderFragment);
+			compileShader(shaderFragment);
 			OpenGL::ErrorTest();
 		}
 
@@ -237,7 +238,7 @@ void func()
 		glAttachShader(program, shaderFragment);
 		OpenGL::ErrorTest();
 
-		LinkProgram(program);
+		linkProgram(program);
 		OpenGL::ErrorTest();
 
 		glDeleteShader(shaderVertex);

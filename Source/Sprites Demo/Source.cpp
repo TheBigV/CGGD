@@ -7,6 +7,8 @@
 #include <fstream>
 using namespace std;
 
+#include <glm/glm.hpp>
+
 #include <WinAPI/Window.hpp>
 using namespace CGGD;
 using namespace CGGD::WinAPI;
@@ -27,19 +29,17 @@ using namespace CGGD::OpenIL;
 class Sprite
 {
 public:
-	float posX = 0.0f;
-	float posY = 0.0f;
-	float sizeX = 100.0f;
-	float sizeY = 100.0f;
+	using vec2 = glm::vec2;
+	using vec4 = glm::vec4;
+public:
+	vec2 pos = vec2(0.0f);
+	vec2 size = vec2(100.0f);
 	float ang = 20.0f;
-	float red = 1.0f;
-	float green = 1.0f;
-	float blue = 1.0f;
-	float alpha = 1.0f;
+	vec4 color = vec4(1.0f);
 	float priority = 0.0f;
 	GLuint texture = 0;
 public:
-	static const size_t screenX = 800, screenY = 600;
+	static const vec2 screen;
 	static std::vector<Sprite*> sprites;
 	static GLuint program;
 	static GLuint bufferAttribute;
@@ -242,52 +242,61 @@ public:
 
 		for(auto &sprite : sprites)
 		{
-			auto sX = sinf((sprite->ang + 90.0f) / 180.0f * 3.14f);
-			auto cX = cosf((sprite->ang + 90.0f) / 180.0f * 3.14f);
-			auto sY = sinf((sprite->ang + 00.0f) / 180.0f * 3.14f);
-			auto cY = cosf((sprite->ang + 00.0f) / 180.0f * 3.14f);
+			// auto sX = sinf((sprite->ang + 90.0f) / 180.0f * 3.14f);
+			// auto cX = cosf((sprite->ang + 90.0f) / 180.0f * 3.14f);
+			// auto sY = sinf((sprite->ang + 00.0f) / 180.0f * 3.14f);
+			// auto cY = cosf((sprite->ang + 00.0f) / 180.0f * 3.14f);
 
-			auto vXx = sprite->sizeX*0.5f*sX;
-			auto vXy = sprite->sizeX*0.5f*cX;
-			auto vYx = sprite->sizeY*0.5f*sY;
-			auto vYy = sprite->sizeY*0.5f*cY;
-			auto t = (float)screenY / (float)screenX;
+			auto aY = glm::radians(sprite->ang + 00.0f);
+			auto aX = glm::radians(sprite->ang + 90.0f);
 
-			*(float*)(data + stride * 0 + 0) = (sprite->posX - vXx - vYx) / (float)screenX * 2.0f - 1.0f;
-			*(float*)(data + stride * 0 + 4) = (sprite->posY - vXy - vYy) / (float)screenY * 2.0f - 1.0f;
+			auto vX = sprite->size * 0.5f * vec2(sinf(aX), cosf(aX));
+			auto vY = sprite->size * 0.5f * vec2(sinf(aY), cosf(aY));
+
+			// auto vXx = sprite->sizeX*0.5f*sX;
+			// auto vXy = sprite->sizeX*0.5f*cX;
+			// auto vYx = sprite->sizeY*0.5f*sY;
+			// auto vYy = sprite->sizeY*0.5f*cY;
+
+			// *(float*)(data + stride * 0 + 0) = (sprite->posX - vXx - vYx) / (float)screenX * 2.0f - 1.0f;
+			// *(float*)(data + stride * 0 + 4) = (sprite->posY - vXy - vYy) / (float)screenY * 2.0f - 1.0f;
+			*(vec2*)(data + stride * 0 + 0) = (sprite->pos - vX - vY) / screen * 2.0f - 1.0f;
 			*(float*)(data + stride * 0 + 8) = 0.0f;
 			*(float*)(data + stride * 0 + 12) = 0.0f;
-			*(std::uint8_t*)(data + stride * 0 + 16) = (std::uint8_t)(sprite->red * 255.0f);
-			*(std::uint8_t*)(data + stride * 0 + 17) = (std::uint8_t)(sprite->green * 255.0f);
-			*(std::uint8_t*)(data + stride * 0 + 18) = (std::uint8_t)(sprite->blue * 255.0f);
-			*(std::uint8_t*)(data + stride * 0 + 19) = (std::uint8_t)(sprite->alpha * 255.0f);
+			*(std::uint8_t*)(data + stride * 0 + 16) = (std::uint8_t)(sprite->color.r * 255.0f);
+			*(std::uint8_t*)(data + stride * 0 + 17) = (std::uint8_t)(sprite->color.g * 255.0f);
+			*(std::uint8_t*)(data + stride * 0 + 18) = (std::uint8_t)(sprite->color.b * 255.0f);
+			*(std::uint8_t*)(data + stride * 0 + 19) = (std::uint8_t)(sprite->color.a * 255.0f);
 
-			*(float*)(data + stride * 1 + 0) = (sprite->posX + vXx - vYx) / (float)screenX * 2.0f - 1.0f;
-			*(float*)(data + stride * 1 + 4) = (sprite->posY + vXy - vYy) / (float)screenY * 2.0f - 1.0f;
+			// *(float*)(data + stride * 1 + 0) = (sprite->posX + vXx - vYx) / (float)screenX * 2.0f - 1.0f;
+			// *(float*)(data + stride * 1 + 4) = (sprite->posY + vXy - vYy) / (float)screenY * 2.0f - 1.0f;
+			*(vec2*)(data + stride * 1 + 0) = (sprite->pos + vX - vY) / screen * 2.0f - 1.0f;
 			*(float*)(data + stride * 1 + 8) = 1.0f;
 			*(float*)(data + stride * 1 + 12) = 0.0f;
-			*(std::uint8_t*)(data + stride * 1 + 16) = (std::uint8_t)(sprite->red * 255.0f);
-			*(std::uint8_t*)(data + stride * 1 + 17) = (std::uint8_t)(sprite->green * 255.0f);
-			*(std::uint8_t*)(data + stride * 1 + 18) = (std::uint8_t)(sprite->blue * 255.0f);
-			*(std::uint8_t*)(data + stride * 1 + 19) = (std::uint8_t)(sprite->alpha * 255.0f);
+			*(std::uint8_t*)(data + stride * 1 + 16) = (std::uint8_t)(sprite->color.r * 255.0f);
+			*(std::uint8_t*)(data + stride * 1 + 17) = (std::uint8_t)(sprite->color.g * 255.0f);
+			*(std::uint8_t*)(data + stride * 1 + 18) = (std::uint8_t)(sprite->color.b * 255.0f);
+			*(std::uint8_t*)(data + stride * 1 + 19) = (std::uint8_t)(sprite->color.a * 255.0f);
 
-			*(float*)(data + stride * 2 + 0) = (sprite->posX - vXx + vYx) / (float)screenX * 2.0f - 1.0f;
-			*(float*)(data + stride * 2 + 4) = (sprite->posY - vXy + vYy) / (float)screenY * 2.0f - 1.0f;
+			// *(float*)(data + stride * 2 + 0) = (sprite->posX - vXx + vYx) / (float)screenX * 2.0f - 1.0f;
+			// *(float*)(data + stride * 2 + 4) = (sprite->posY - vXy + vYy) / (float)screenY * 2.0f - 1.0f;
+			*(vec2*)(data + stride * 2 + 0) = (sprite->pos - vX + vY) / screen * 2.0f - 1.0f;
 			*(float*)(data + stride * 2 + 8) = 0.0f;
 			*(float*)(data + stride * 2 + 12) = 1.0f;
-			*(std::uint8_t*)(data + stride * 2 + 16) = (std::uint8_t)(sprite->red * 255.0f);
-			*(std::uint8_t*)(data + stride * 2 + 17) = (std::uint8_t)(sprite->green * 255.0f);
-			*(std::uint8_t*)(data + stride * 2 + 18) = (std::uint8_t)(sprite->blue * 255.0f);
-			*(std::uint8_t*)(data + stride * 2 + 19) = (std::uint8_t)(sprite->alpha * 255.0f);
+			*(std::uint8_t*)(data + stride * 2 + 16) = (std::uint8_t)(sprite->color.r * 255.0f);
+			*(std::uint8_t*)(data + stride * 2 + 17) = (std::uint8_t)(sprite->color.g * 255.0f);
+			*(std::uint8_t*)(data + stride * 2 + 18) = (std::uint8_t)(sprite->color.b * 255.0f);
+			*(std::uint8_t*)(data + stride * 2 + 19) = (std::uint8_t)(sprite->color.a * 255.0f);
 
-			*(float*)(data + stride * 3 + 0) = (sprite->posX + vXx + vYx) / (float)screenX * 2.0f - 1.0f;
-			*(float*)(data + stride * 3 + 4) = (sprite->posY + vXy + vYy) / (float)screenY * 2.0f - 1.0f;
+			// *(float*)(data + stride * 3 + 0) = (sprite->posX + vXx + vYx) / (float)screenX * 2.0f - 1.0f;
+			// *(float*)(data + stride * 3 + 4) = (sprite->posY + vXy + vYy) / (float)screenY * 2.0f - 1.0f;
+			*(vec2*)(data + stride * 3 + 0) = (sprite->pos + vX + vY) / screen * 2.0f - 1.0f;
 			*(float*)(data + stride * 3 + 8) = 1.0f;
 			*(float*)(data + stride * 3 + 12) = 1.0f;
-			*(std::uint8_t*)(data + stride * 3 + 16) = (std::uint8_t)(sprite->red * 255.0f);
-			*(std::uint8_t*)(data + stride * 3 + 17) = (std::uint8_t)(sprite->green * 255.0f);
-			*(std::uint8_t*)(data + stride * 3 + 18) = (std::uint8_t)(sprite->blue * 255.0f);
-			*(std::uint8_t*)(data + stride * 3 + 19) = (std::uint8_t)(sprite->alpha * 255.0f);
+			*(std::uint8_t*)(data + stride * 3 + 16) = (std::uint8_t)(sprite->color.r * 255.0f);
+			*(std::uint8_t*)(data + stride * 3 + 17) = (std::uint8_t)(sprite->color.g * 255.0f);
+			*(std::uint8_t*)(data + stride * 3 + 18) = (std::uint8_t)(sprite->color.b * 255.0f);
+			*(std::uint8_t*)(data + stride * 3 + 19) = (std::uint8_t)(sprite->color.a * 255.0f);
 
 			glActiveTexture(GL_TEXTURE0 + 0);
 			glBindTexture(GL_TEXTURE_2D, sprite->texture);
@@ -308,6 +317,7 @@ public:
 		sprites.erase(std::find(sprites.begin(), sprites.end(), this));
 	}
 };
+const Sprite::vec2 Sprite::screen = Sprite::vec2(800.0f, 600.0f);
 std::vector<Sprite*> Sprite::sprites;
 GLuint Sprite::program;
 GLuint Sprite::bufferAttribute;
@@ -376,15 +386,13 @@ void func()
 		if(GetAsyncKeyState(VK_UP))
 		{
 			auto sprite = new Sprite();
-			sprite->posX = (rand() % Sprite::screenX);
-			sprite->posY = (rand() % Sprite::screenY);
-			sprite->sizeX = 160.0f;
-			sprite->sizeY = 120.0f;
+			sprite->pos = Sprite::vec2(rand() % (std::uint32_t)Sprite::screen.x, rand() % (std::uint32_t)Sprite::screen.y);
+			sprite->size = Sprite::vec2(100.0f);
 			sprite->texture = rand() % 2 ? image1 : image2;
-			sprite->red = (rand() % 256) / 255.0f;
-			sprite->green = (rand() % 256) / 255.0f;
-			sprite->blue = (rand() % 256) / 255.0f;
-			sprite->alpha = (rand() % 256) / 255.0f;
+			sprite->color.r = (rand() % 256) / 255.0f;
+			sprite->color.g = (rand() % 256) / 255.0f;
+			sprite->color.b = (rand() % 256) / 255.0f;
+			sprite->color.a = (rand() % 256) / 255.0f;
 		}
 		if(GetAsyncKeyState(VK_DOWN))
 		{
