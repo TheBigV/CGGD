@@ -33,6 +33,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sprites Demo", "Projects\Sp
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Space Shooter Demo", "Projects\Space Shooter Demo\Space Shooter Demo.vcxproj", "{F17A1C1B-0349-47DF-A6D5-717A6A40566B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26} = {D90E0E5A-F1C5-4996-B7CE-1C0BD5C87C26}
+		{722CF56A-8434-4918-B951-A4497441930E} = {722CF56A-8434-4918-B951-A4497441930E}
+		{BBF997A7-A363-415A-9B06-E9A0F6AA4FBB} = {BBF997A7-A363-415A-9B06-E9A0F6AA4FBB}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
